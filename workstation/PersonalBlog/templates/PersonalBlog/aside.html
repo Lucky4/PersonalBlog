@@ -1,0 +1,29 @@
+<div>
+	<h3>Recent Posts</h3>
+	{% if recents %}
+		<ul>
+		{% for recent in recents %}
+			<li><a href="">{{ recent.title }}</a></li>
+			<li>{{ recent.create_time }}</li>
+		{% endfor %}
+		</ul>
+	{% endif %}
+
+	<h3>Archives</h3>
+	{% regroup date by year as date_list %}
+
+	<ul>
+	{% for year in date_list %}
+		<li>{{ year.grouper }}
+			<ul>
+	    	{% for item in year.list %}
+	      		<li>{{ item.month }}</li>
+	    	{% endfor %}
+			</ul>
+		</li>
+	{% endfor %}
+	</ul>
+
+	<h3>Copyright © 2016 dominicrodger.com.</h3>
+</div>
+

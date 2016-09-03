@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load custom_markdown %}
+
+{% block title %}Search_Tag{% endblock %}
+
+{% block body_content %}
+<!-- A wrapper for all the blog posts -->
+<div class="posts">
+    <h1 class="content-subhead">Pinned Post</h1>
+
+    <!-- A single blog post -->
+    {% if posts %}
+	    {% for post in posts %}
+		    <section class="post">
+		        <header class="post-header">
+
+		            <h2 class="post-title">{{ post.title }}</h2>
+
+		            <p class="post-meta">
+		                In <a href="#" class="post-author">{{ post.create_time }}</a>
+		            </p>
+		        </header>
+
+		        <div class="post-description">
+		            <p>
+		                {{ post.posts|custom_markdown }}
+		            </p>
+		        </div>
+		    </section>
+	    {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

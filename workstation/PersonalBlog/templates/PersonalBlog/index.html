@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% load custom_markdown %}
+
+{% block title %}Index{% endblock %}
+
+{% block body_content %}
+<!-- A wrapper for all the blog posts -->
+<div class="posts">
+    <h1 class="content-subhead">Pinned Post</h1>
+
+    {% if form.errors %}
+        <p style="color: red;">
+            Please correct the error{{ form.errors|pluralize }} below.
+        </p>
+    {% endif %}
+
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form.as_table }} 
+        <input type="submit" value="Submit">
+    </form>
+    <!-- A single blog post -->
+    {% if posts %}
+	    {% for post in posts %}
+		    <section class="post">
+		        <header class="post-header">
+
+		            <h2 class="post-title">{{ post.title }}</h2>
+
+		            <p class="post-meta">
+		                In <a href="#" class="post-author">{{ post.create_time }}</a>
+		                under 
+		                {% for tag in post.tags %}
+		                	<a class="post-category post-category-design" href="{% url 'search_tag' 'test' %}">{{ tag }}</a>
+		                {% endfor %}
+		            </p>
+		        </header>
+
+		        <div class="post-description">
+		            <p>
+		                {{ post.posts|custom_markdown }}
+		            </p>
+		        </div>
+		        <a class="pure-button" href="{% url 'detail' post.slug %}">Read More >>> </a>
+		    </section>
+	    {% endfor %}
+
+	    {% if posts.object_list and posts.paginator.num_pages > 1 %}
+		    <div>
+		    	<ul class="pager">
+		    		{% if posts.has_previous %}
+		      			<li><a href="?page={{ posts.previous_page_number }}">上一页</a></li>
+		      		{% else %}
+		      			<li>上一页</li>
+		    		{% endif %}
+
+		    		{% if posts.has_next %}
+		      			<li><a href="?page={{ posts.next_page_number }}">下一页</a></li>
+		      		{% else %}
+		      			下一页
+		    		{% endif %}
+		    	</ul>
+		    </div>
+		{% endif %}
+    {% endif %}
+</div>
+{% endblock %}
